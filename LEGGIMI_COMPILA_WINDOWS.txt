@@ -1,0 +1,24 @@
+COME OTTENERE IL FILE .vst3 PER WINDOWS
+
+Strada A - senza installare nulla (consigliata): GitHub compila per te
+  1. Crea un account gratuito su github.com e un nuovo repository (anche privato), per esempio "crest-tamer".
+  2. Carica nel repository il CONTENUTO della cartella vst3_juce (CMakeLists.txt, cartella Source, cartella Tools):
+     "Add file" -> "Upload files", trascina i file e le cartelle.
+  3. Crea il file del flusso di lavoro: "Add file" -> "Create new file", come nome scrivi
+        .github/workflows/build-windows.yml
+     e incolla il contenuto del file build-windows.yml che trovi in questa cartella (cartella nascosta .github).
+     Poi "Commit changes".
+  4. Vai nella scheda "Actions": parte da solo "Compila VST3 per Windows" (se no: scegli il flusso e "Run workflow").
+     Ci vogliono circa 10-15 minuti.
+  5. A lavoro finito apri l'esecuzione e scarica in fondo "CrestTamer-VST3-Windows" (file .zip).
+     Dentro c'è la cartella "Crest Tamer.vst3".
+  6. Copia "Crest Tamer.vst3" in  C:\Program Files\Common Files\VST3  (serve Amministratore) e riavvia/riscansiona i plugin nel DAW.
+  Se la compilazione fallisce, apri l'esecuzione e copiami il testo dell'errore.
+
+Strada B - sul tuo PC
+  Installa: Visual Studio 2022 Community (carico "Sviluppo di applicazioni desktop con C++"), CMake, Git.
+  Da "Prompt dei comandi per sviluppatori" dentro la cartella vst3_juce:
+     cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+     cmake --build build --config Release --target CrestTamer_VST3
+  Il file: build\CrestTamer_artefacts\Release\VST3\Crest Tamer.vst3
+  (se hai gia' JUCE scaricato:  cmake -S . -B build -DJUCE_DIR=C:/percorso/JUCE ...)
