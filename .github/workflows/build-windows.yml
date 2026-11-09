@@ -1,0 +1,25 @@
+name: Compila VST3 per Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configura (CMake + Visual Studio 2022)
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Compila (Release)
+        run: cmake --build build --config Release --target CrestTamer_VST3 --parallel
+
+      - name: Salva il risultato
+        uses: actions/upload-artifact@v4
+        with:
+          name: CrestTamer-VST3-Windows
+          path: build/CrestTamer_artefacts/Release/VST3/
+          if-no-files-found: error
